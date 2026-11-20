@@ -6,23 +6,22 @@ public class AtmServiceTest
 {
     Card card;
     AtmService atmService;
-    void setupService()
+    public AtmServiceTest()
     {
         Account account = new Account (5000);
         card = new Card ("1234-5678", "1234", account);
-        atmService = new AtmService (5000);
+        atmService = new AtmService (7000);
     }
 
     [Fact]
     public void InsertCardTest()
     {
-        // setup
-        Account account = new Account (5000);
-        Card card = new Card ("1234-5678", "1234", account);
-        AtmService atmService = new AtmService (5000);
+        // arrange: kort, konto och atm-innehav skapas i konstruktorn.
 
-        // test
+        // act
         atmService.InsertCard(card);
+
+        // assert
         Assert.True(atmService.HasCardInserted);
     }
 
@@ -34,12 +33,13 @@ public class AtmServiceTest
     [InlineData("123", false)]
     public void EnterPinTest(string pin, bool expected)
     {
-        // setup
-        setupService();
+        // arrange: kort, konto och atm-innehav skapas i konstruktorn.
         atmService.InsertCard(card);
 
-        // test
+        // act
         bool actual = atmService.EnterPin(pin);
+
+        // assert
         Assert.Equal(expected, actual);
     }
 }
