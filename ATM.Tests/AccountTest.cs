@@ -14,10 +14,24 @@ public class AccountTest
     [Fact]
     public void IsAccountTest()
     {
-        int accountBalance = 5000;
-        Account account = new Account(accountBalance);
+        int expectedBalance = 5000;
+        Account account = new Account(5000);
         //Assert.IsType<Account>(account);
-        Assert.Equal(accountBalance, account.Balance);
+        Assert.Equal(expectedBalance, account.Balance);
+    }
+
+    [Fact]
+    public void GetBalanceTest()
+    {
+        // arrange
+        Account account = setupAccount(5000);
+        int expectedBalance = 5000;
+
+        // act
+       int actualBalance = account.GetBalance();
+
+       // assert
+       Assert.Equal(expectedBalance, actualBalance);
     }
 
     [Theory]
