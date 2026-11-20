@@ -16,39 +16,96 @@ public class AccountTest
     {
         int accountBalance = 5000;
         Account account = new Account(accountBalance);
-        Assert.IsType<Account>(account);
+        //Assert.IsType<Account>(account);
         Assert.Equal(accountBalance, account.Balance);
     }
 
-    [Fact]
-    public void WithdrawTest()
+    [Theory]
+    [InlineData(1000, 4000)]
+    [InlineData(5000, 0)]
+    [InlineData(1, 4999)]
+    public void WithdrawTest(int withdrawal, int expectedBalance)
     {
-        // setup
-        // int accountBalance = 5000;
-        // Account account = new Account(accountBalance);
-
+        // arrange
         Account account = setupAccount(5000);
 
-        // test
-        int withdrawal = 1000;
-        account.Withdraw(withdrawal);
-        int expectedBalance = 4000;
+        // act
+       bool actual = account.Withdraw(withdrawal);
+
+        // assert
+        Assert.True(actual);
         Assert.Equal(expectedBalance, account.Balance);
     }
 
         [Fact]
-    public void WithdrawNotNegativeTest()
+    public void WithdrawExceedsBalanceTest()
     {
-        // setup
-        //  int accountBalance = 1000;
-        // Account account = new Account(accountBalance);
-
+        // arrange
         Account account = setupAccount(1000);
-
-        // test
         int withdrawal = 2000;
-        account.Withdraw(withdrawal);
         int expectedBalance = 1000;
+
+        // act
+        bool actual = account.Withdraw(withdrawal);
+
+        // assert
+        Assert.False(actual);
+        Assert.Equal(expectedBalance, account.Balance);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-500)]
+    public void WithdrawInvalidAmountTest(int withdrawal)
+    {
+        // arrange
+        Account account = setupAccount(5000);
+        int expectedBalance = 5000;
+
+        // act
+        bool actual = account.Withdraw(withdrawal);
+
+        // assert
+        Assert.False(actual);
+        Assert.Equal(expectedBalance, account.Balance);
+    }
+
+    [Theory]
+    [InlineData(500, 5500)]
+    [InlineData(1, 5001)]
+    [InlineData(5000, 10000)]
+
+
+    public void DepositTest(int deposit, int expectedBalance)
+    {
+        // arrange
+        Account account = setupAccount(5000);
+
+        // act
+       bool actual = account.Deposit(deposit);
+
+        // assert
+        Assert.True(actual);
+        Assert.Equal(expectedBalance, account.Balance);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-500)]
+
+    public void DepositInvalidAmountTest(int deposit)
+    {
+        // arrange
+        Account account = setupAccount(5000);
+        int expectedBalance = 5000;
+
+        // act
+        bool actual = account.Deposit(deposit);
+
+        // assert
+        Assert.False(actual);
         Assert.Equal(expectedBalance, account.Balance);
     }
 }
