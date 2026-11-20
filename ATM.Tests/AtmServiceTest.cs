@@ -58,4 +58,22 @@ public class AtmServiceTest
         Assert.False(atmService.IsAuthenticated);
     }
 
+    [Fact]
+    public void GetBalanceNoCardTest()
+    {
+        // arrange
+
+        // act/assert
+        Assert.Throws<InvalidOperationException>(() => atmService.GetBalance());
+    }
+
+    [Fact]
+    public void GetBalanceNotAuthenticatedTest()
+    {
+        // arrange
+        atmService.InsertCard(card);
+        // act/assert
+        Assert.Throws<InvalidOperationException>(() => atmService.GetBalance());
+    }
+
 }
