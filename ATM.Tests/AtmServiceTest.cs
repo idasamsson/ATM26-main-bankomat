@@ -43,4 +43,19 @@ public class AtmServiceTest
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void EjectCardTest()
+    {
+        // arrange
+        atmService.InsertCard(card);
+        atmService.EnterPin("1234");
+        
+        // act
+        atmService.EjectCard();
+
+        // assert
+        Assert.False(atmService.HasCardInserted);
+        Assert.False(atmService.IsAuthenticated);
+    }
+
 }
